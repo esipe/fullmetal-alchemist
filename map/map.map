@@ -1,0 +1,401 @@
+MAP 
+
+  IMAGETYPE      PNG 
+  EXTENT         -10.0250027 -50.0 75.6632 0.112008
+  SIZE           800 800 
+
+  OUTPUTFORMAT  
+    NAME "png"
+	DRIVER AGG/PNG
+	MIMETYPE "image/png"
+    IMAGEMODE     RGBA
+	EXTENSION "png"
+    TRANSPARENT   ON
+  END
+  
+  PROJECTION 
+      "init=epsg:4326" 
+  END 
+
+  WEB 
+    METADATA 
+      "wms_enable_request"      "*" 
+      "wms_srs"                 "EPSG:4326" 
+      "wms_title"               "mymap" 
+      "wms_online_resource"     "http://mapserver.esipe.geonef.fr/NOM_PROJET/toto?" 
+      "wms_feature_info_mime_type" "text/html"
+    END 
+  END 
+
+  # Start of LAYER DEFINITIONS ---------------------BUSLINE
+
+  LAYER 
+    NAME         BusLine 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/BusLine.shp" 
+    STATUS       ON 
+    TYPE         LINE 
+    TEMPLATE	"../web/popup.html"
+    CLASS 
+      NAME       "BusLine" 
+      STYLE 
+        COLOR       122 245 0 
+        OPACITY     70 
+        WIDTH 3
+      END 
+    END 
+  END 
+  #--------------------------------------------------CITY
+  
+  LAYER 
+    NAME         City 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/City.shp" 
+    STATUS       ON 
+    TYPE         POLYGON 
+    CLASS 
+		EXPRESSION ('[Name]' = 'Central')
+		NAME       "Central" 
+				STYLE 
+			OUTLINECOLOR 255 255 255
+			COLOR       240 178 127 
+			OPACITY     70 
+		END 
+    END 
+	CLASS 
+		EXPRESSION ('[Name]' = 'North City')
+		NAME       "North City" 
+				STYLE 
+			OUTLINECOLOR 255 255 255
+			COLOR       230 231 139 
+			OPACITY     70 
+		END 
+    END 
+	CLASS 
+		EXPRESSION ('[Name]' = 'South City')
+		NAME       "South City" 
+				STYLE 
+			OUTLINECOLOR 255 255 255
+			COLOR       212 138 244 
+			OPACITY     70 
+		END 
+    END 
+	CLASS 
+		EXPRESSION ('[Name]' = 'West City')
+		NAME       "West City" 
+				STYLE 
+			OUTLINECOLOR 255 255 255
+			COLOR       253 182 49 
+			OPACITY     70 
+		END 
+    END 
+	    CLASS 
+		EXPRESSION ('[Name]' = 'East City')
+		NAME       "East City" 
+				STYLE 
+			OUTLINECOLOR 255 255 255
+			COLOR       231 198 32 
+			OPACITY     70 
+		END 
+    END 
+  END 
+
+LAYER 
+    NAME         Cityname 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/Cityname.shp" 
+    STATUS       ON 
+    TYPE         POINT 
+    LABELITEM "Name" 
+	LABELMAXSCALE 20000000
+	LABELMINSCALE 3000000
+    	CLASS 
+		
+		NAME       "Central" 
+		LABEL
+			COLOR 132 0 0
+			ANTIALIAS TRUE
+			PARTIALS FALSE
+			POSITION AUTO
+      		END
+		STYLE 
+			OUTLINECOLOR 255 255 255
+			COLOR       240 178 127 
+			OPACITY     70 
+		END 
+    END 
+END 
+
+
+  #----------------------------------------COUNTRY
+  LAYER 
+    NAME         Country 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/Country.shp" 
+    STATUS       ON 
+    TYPE         POLYGON
+      CLASS 
+      NAME       "Country" 
+      STYLE
+	OUTLINECOLOR 255 255 255
+        COLOR       170 170 127 
+        OPACITY     70 
+      END
+
+	
+         END 
+  END 
+
+  LAYER 
+    NAME         Countryname 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/Countryname.shp" 
+    STATUS       ON 
+    TYPE         POINT
+    LABELITEM "Name" 
+    LABELMINSCALE 10000000
+    CLASS 
+      NAME       "Country" 
+      STYLE
+	OUTLINECOLOR 255 255 255
+        COLOR       170 170 127 
+        OPACITY     70 
+      END
+
+	
+      LABEL
+		COLOR 132 0 0
+		ANTIALIAS TRUE
+		PARTIALS FALSE
+		POSITION CC
+      END
+    END 
+  END 
+
+  #---------------------------------------LAKE
+  LAYER 
+    NAME         Lake 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/Lake.shp" 
+    STATUS       ON 
+    TYPE         POLYGON 
+    CLASS 
+      NAME       "Lake" 
+      STYLE 
+		OUTLINECOLOR 255 255 255
+        COLOR       0 170 255 
+        OPACITY     70 
+      END 
+    END 
+  END 
+  #-----------------------------------------OCEAN
+  LAYER 
+    NAME         Ocean 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/Ocean.shp" 
+    STATUS       ON 
+    TYPE         POLYGON 
+    CLASS 
+      NAME       "Ocean" 
+      STYLE 
+		OUTLINECOLOR 255 255 255
+        COLOR       65 105 225
+        OPACITY     70 
+      END 
+    END 
+  END 
+  #---
+  SYMBOL
+	NAME "circle"
+	TYPE ELLIPSE
+	FILLED TRUE
+	POINTS
+		10 10
+	END
+  END
+  #----------------------------------------------LANDMARK
+  LAYER 
+    NAME         Landmarks 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/Landmarks.shp" 
+    STATUS       ON 
+    TYPE         POINT 
+   # MAXSCALE 	10000000
+    LABELITEM "Name" 
+	LABELMAXSCALE 10000000
+	CLUSTER
+     MAXDISTANCE 40  # in pixels
+     REGION "ellipse"  # can be rectangle or ellipse
+    END
+
+    CLASS 
+      NAME       "Landmarks" 
+      LABEL
+		COLOR 204 204 255
+		ANTIALIAS TRUE
+		PARTIALS FALSE
+		POSITION CC
+		
+      END
+      STYLE 
+		OUTLINECOLOR 255 255 255
+		SYMBOL "circle"
+		
+		COLOR 204 204 255
+      END 
+    END 
+  END 
+  #----------------------------------------------RAILWAY
+  LAYER 
+    NAME         Railway 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/Railway.shp" 
+    STATUS       ON 
+    TYPE         LINE 
+    TEMPLATE	"../web/popup.html"
+    CLASS 
+      NAME       "Railway" 
+      STYLE 
+        COLOR       170 110 142
+        OPACITY     70 
+        WIDTH 3
+      END 
+    END 
+  END 
+  #-----------------------------------------RIVER
+  LAYER 
+    NAME         Rivers 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/Rivers.shp" 
+    STATUS       ON 
+    TYPE         LINE 
+    CLASS 
+      NAME       "Rivers" 
+      STYLE 
+        COLOR       0 170 255 
+        OPACITY     70 
+      END 
+    END 
+  END 
+  #-----------------------------------------VILLE
+  LAYER 
+    NAME         Ville 
+    CONNECTIONTYPE OGR 
+    CONNECTION "data/Ville.shp" 
+    STATUS       ON 
+    TYPE         POINT
+    MAXSCALE 	10000000
+    LABELITEM "Ville" 
+    LABELMAXSCALE 3000000
+    CLASS 
+	EXPRESSION (([Polulation] >= 0)&&([Polulation] <= 50))
+      NAME       "Ville50" 
+      LABEL
+      	POSITION AUTO
+		COLOR 255 255 102 
+		ANTIALIAS TRUE
+		PARTIALS FALSE
+      END
+      STYLE 
+		OUTLINECOLOR 255 255 255
+        SYMBOL "circle"
+		#
+        COLOR 255 255 102 
+		OPACITY     70
+      END 
+    END 
+	CLASS 
+	EXPRESSION (([Polulation] >= 50)&&([Polulation] <= 250))
+      NAME       "Ville250" 
+      LABEL
+      	POSITION AUTO
+		COLOR 0 255 153 
+		ANTIALIAS TRUE
+		PARTIALS FALSE
+      END
+      STYLE 
+		OUTLINECOLOR 255 255 255
+        SYMBOL "circle"
+		
+        COLOR 0 255 153 
+		OPACITY     70
+      END 
+    END 
+	CLASS 
+	EXPRESSION (([Polulation] >= 250)&&([Polulation] <= 600))
+      NAME       "Ville600" 
+      LABEL
+      	POSITION AUTO
+		COLOR 0 102 0 
+		ANTIALIAS TRUE
+		PARTIALS FALSE
+      END
+      STYLE 
+		OUTLINECOLOR 255 255 255
+        SYMBOL "circle"
+		
+        COLOR 0 102 0 
+		OPACITY     70
+      END 
+    END 
+	CLASS 
+	EXPRESSION (([Polulation] >= 600)&&([Polulation] <= 2000))
+      NAME       "Ville2000" 
+      LABEL
+      	POSITION AUTO
+		COLOR 255 102 0 
+		ANTIALIAS TRUE
+		PARTIALS FALSE
+      END
+      STYLE 
+		OUTLINECOLOR 255 255 255
+        SYMBOL "circle"
+		
+        COLOR 255 102 0 
+		OPACITY     70
+      END 
+    END 
+	CLASS 
+	EXPRESSION (([Polulation] >= 3000)&&([Polulation] <= 4000))
+      NAME       "Ville4000" 
+      LABEL
+      	POSITION AUTO
+		COLOR 238 16 16 
+		ANTIALIAS TRUE
+		PARTIALS FALSE
+      END
+      STYLE 
+		OUTLINECOLOR 255 255 255
+        SYMBOL "circle"
+		
+        COLOR 238 16 16 
+		OPACITY     70
+      END 
+    END 
+  END 
+  #---
+  
+  LAYER
+  MAXSCALE 	300000
+    NAME "EastCity"
+    DATA "data/EastCity.tif"
+    TYPE RASTER
+    STATUS ON
+  END
+
+  LAYER
+  MAXSCALE 	300000
+    NAME "Resembool"
+    DATA "data/Resembool.tif"
+    TYPE RASTER
+    STATUS ON
+  END
+
+  # End of LAYER DEFINITIONS ------------------------------- 
+
+  
+
+END # All map files must come to an end just as all other things must come to... 
+
+
+

@@ -1,0 +1,5 @@
+tmp/
+extra-data.tar.bz2
+web/extra-data.tar.bz2
+./map/data/EastCity.tif
+./map/data/Resembool.tif
